@@ -1,0 +1,20 @@
+{
+  "name": "contacts-book",
+  "version": "1.0.0",
+  "description": "Contacts Book Project",
+  "homepage": "https://github.com/rpscastro/contacts-book#readme",
+  "bugs": {
+    "url": "https://github.com/rpscastro/contacts-book/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rpscastro/contacts-book.git"
+  },
+  "license": "ISC",
+  "author": "Rafael Castro",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
