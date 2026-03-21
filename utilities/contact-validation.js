@@ -32,7 +32,6 @@ validate.addContactRules = () => {
       .trim()
       .escape()
       .notEmpty()
-      .isMobilePhone()
       .withMessage("The phone number given does not meet requirements."),
   ];
 };
