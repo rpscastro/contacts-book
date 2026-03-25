@@ -30,7 +30,8 @@ const getContactById = async (req, res) => {
   }
   try {
     const contactId = new ObjectId(req.params.id);
-    const contact = await mongodb.getDatabase()
+    const contact = await mongodb
+      .getDatabase()
       .db()
       .collection("contacts")
       .findOne({ _id: contactId });
@@ -60,19 +61,22 @@ const createContact = async (req, res) => {
     socialMedia: req.body.socialMedia,
     company: req.body.company,
   };
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("contacts")
-    .insertOne(contactData);
-  if (response.acknowledged) {
-    res.status(204).send();
-  } else {
-    res
-      .status(500)
-      .json(
-        response.error || "Some error occurred while creating the contact.",
-      );
+  try {
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("contacts")
+      .insertOne(contactData);
+    if (response.acknowledged) {
+      res.status(204).send();
+    } else {
+      res
+        .status(500)
+        .json({ message: "Some error occurred while creating the contact." });
+    }
+  } catch (error) {
+    console.error("createContact error:", error);
+    res.status(500).json({ message: error.message || "Internal server error" });
   }
 };
 
@@ -97,19 +101,22 @@ const updateContact = async (req, res) => {
     socialMedia: req.body.socialMedia,
     company: req.body.company,
   };
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("contacts")
-    .replaceOne({ _id: contactId }, contactData);
-  if (response.modifiedCount > 0) {
-    res.status(204).send();
-  } else {
-    res
-      .status(500)
-      .json(
-        response.error || "Some error occurred while updating the contact.",
-      );
+  try {
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("contacts")
+      .replaceOne({ _id: contactId }, contactData);
+    if (response.modifiedCount > 0) {
+      res.status(204).send();
+    } else {
+      res
+        .status(500)
+        .json({ message: "Some error occurred while updating the contact." });
+    }
+  } catch (error) {
+    console.error("updateContact error:", error);
+    res.status(500).json({ message: error.message || "Internal server error" });
   }
 };
 
@@ -123,19 +130,22 @@ const deleteContact = async (req, res) => {
   }
 
   const contactId = new ObjectId(req.params.id);
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("contacts")
-    .deleteOne({ _id: contactId });
-  if (response.deletedCount > 0) {
-    res.status(204).send();
-  } else {
-    res
-      .status(500)
-      .json(
-        response.error || "Some error occurred while deleting the contact.",
-      );
+  try {
+    const response = await mongodb
+      .getDatabase()
+      .db()
+      .collection("contacts")
+      .deleteOne({ _id: contactId });
+    if (response.deletedCount > 0) {
+      res.status(204).send();
+    } else {
+      res
+        .status(500)
+        .json({ message: "Some error occurred while deleting the contact." });
+    }
+  } catch (error) {
+    console.error("deleteContact error:", error);
+    res.status(500).json({ message: error.message || "Internal server error" });
   }
 };
 
